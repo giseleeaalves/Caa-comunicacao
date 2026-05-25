@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prancha de Comunicação (CAA)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Grid simples e responsivo para os cartões */
+        .board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Estilo dos botões/cartões */
+        .card {
+            background-color: #ffffff;
+            border: 4px solid #d1d5db;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.1s, border-color 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Feedback visual ao clicar */
+        .card:active {
+            transform: scale(0.95);
+        }
+
+        /* Cores específicas para facilitar a identificação rápida */
+        .card.sim { border-color: #4ade80; } /* Verde */
+        .card.nao { border-color: #f87171; } /* Vermelho */
+        .card.emocao { border-color: #fcd34d; } /* Amarelo */
+        .card.acao { border-color: #60a5fa; } /* Azul */
+
+        /* Espaço para a imagem/pictograma */
+        .card-icon {
+            font-size: 64px; /* Tamanho do emoji provisório */
+            margin-bottom: 15px;
+        }
+
+        .card-icon img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        .card-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="board">
+        <!-- Respostas Básicas -->
+        <div class="card sim" onclick="falar('Sim')">
+            <div class="card-icon">✅</div>
+            <div class="card-text">Sim</div>
+        </div>
+        <div class="card nao" onclick="falar('Não')">
+            <div class="card-icon">❌</div>
+            <div class="card-text">Não</div>
+        </div>
+
+        <!-- Necessidades Físicas -->
+        <div class="card acao" onclick="falar('Quero beber água')">
+            <div class="card-icon">💧</div>
+            <div class="card-text">Água</div>
+        </div>
+        <div class="card acao" onclick="falar('Quero lanche')">
+            <div class="card-icon">🍎</div>
+            <div class="card-text">Lanche</div>
+        </div>
+        <div class="card acao" onclick="falar('Quero ir ao banheiro')">
+            <div class="card-icon">🚽</div>
+            <div class="card-text">Banheiro</div>
+        </div>
+
+        <!-- Atividades -->
+        <div class="card acao" onclick="falar('Quero fazer atividade')">
+            <div class="card-icon">🖍️</div>
+            <div class="card-text">Atividade</div>
+        </div>
+        <div class="card acao" onclick="falar('Quero usar o computador')">
+            <div class="card-icon">💻</div>
+            <div class="card-text">Computador</div>
+        </div>
+
+        <!-- Emoções -->
+        <div class="card emocao" onclick="falar('Estou feliz')">
+            <div class="card-icon">😀</div>
+            <div class="card-text">Feliz</div>
+        </div>
+        <div class="card emocao" onclick="falar('Estou triste')">
+            <div class="card-icon">😢</div>
+            <div class="card-text">Triste</div>
+        </div>
+    </div>
+
+    <script>
+        // Função para transformar texto em voz
+        function falar(texto) {
+            // Verifica se o navegador suporta a síntese de voz
+            if ('speechSynthesis' in window) {
+                // Cancela qualquer fala anterior para não encavalar
+                window.speechSynthesis.cancel(); 
+
+                const mensagem = new SpeechSynthesisUtterance(texto);
+                mensagem.lang = 'pt-BR'; // Define o idioma para Português do Brasil
+                mensagem.rate = 1.0; // Velocidade da fala (1 é o normal)
+                mensagem.pitch = 1.0; // Tom da voz
+                
+                window.speechSynthesis.speak(mensagem);
+            } else {
+                console.warn('Seu navegador não suporta leitura de tela.');
+            }
+        }
+    </script>
+</body>
+</html>
